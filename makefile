@@ -20,13 +20,24 @@ PROMTAIL        := grafana/promtail:3.3.0
 
 KIND_CLUSTER    := klim-starter-cluster
 NAMESPACE       := courses-system
-COURSES_APP     := courses
-AUTH_APP        := auth
-BASE_IMAGE_NAME := localhost/klim
+APP     		:= courses
+BASE_IMAGE_NAME := Klimentin0/courses-service
+SERVICE_NAME 	:= courses-api
 VERSION         := 0.0.1
-COURSES_IMAGE   := $(BASE_IMAGE_NAME)/$(COURSES_APP):$(VERSION)
-METRICS_IMAGE   := $(BASE_IMAGE_NAME)/metrics:$(VERSION)
-AUTH_IMAGE      := $(BASE_IMAGE_NAME)/$(AUTH_APP):$(VERSION)
+SERVICE_IMAGE   := $(BASE_IMAGE_NAME)/$(SERVICE_NAME):$(VERSION)
+METRICS_IMAGE   := $(BASE_IMAGE_NAME)/$(SERVICE_NAME)-metrics:$(VERSION)
+
+#======================
+# Building containers
+
+all: service
+
+service:
+	docker build \
+		-f config/docker/dockerfile.service \
+		-t $(SERVICE_IMAGE) \
+		--build-arg BUILD_REF=$(VERSION) \
+		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
 
 #======================
 # Running with k8s/kind

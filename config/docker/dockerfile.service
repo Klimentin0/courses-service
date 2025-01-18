@@ -1,0 +1,32 @@
+# Build the go binary
+FROM golang:1.23.4 as build_courses-api
+ENV CGO_ENABLED 0
+ARG BUILD_REF
+
+COPY . /service
+
+# instead of copy we can use(for security concerns):
+# RUN mkdir /service
+# COPY go.* /service/
+# WORKDIR /service
+# RUN go mod download
+
+WORKDIR /service/app/services/courses-api
+RUN go build -ldflags "-X main.build=${BUILD_REF}"
+
+FROM alpine:3.21
+ARG BUILD_DATE
+ARG BUILD_REF
+RUN addgroup -g 1000 -S courses && \
+    adduser -u 1000 -h /service -G courses -S courses
+COPY --from=build_courses-api --chown=courses:courses /courses-service/app/services/courses-api/courses-api /service/courses-api
+WORKDIR /service
+USER courses
+CMD ["./courses-api"]
+
+LABEL org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.title="courses-api" \
+      org.opencontainers.image.authors="Klimentii Meshkov <meshkov.biz@yandex.ru>" \
+      org.opencontainers.image.source="https://github.com/Klimentin0/courses-service/tree/master/app/services/courses-api" \
+      org.opencontainers.image.revision="${BUILD_REF}" \
+      org.opencontainers.image.vendor="Klimentii"
