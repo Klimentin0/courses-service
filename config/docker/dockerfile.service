@@ -1,17 +1,20 @@
 # Build the go binary
-FROM golang:1.23.4 as build_courses-api
-ENV CGO_ENABLED 0
+FROM golang:1.23.4 AS build_courses-api
+ENV CGO_ENABLED=0
 ARG BUILD_REF
 
-COPY . /service
+COPY . /courses-service
 
+# Create the service directory and the copy the module files first and then
+# download the dependencies. If this doesn't change, we won't need to do this
+# again in future builds.
 # instead of copy we can use(for security concerns):
 # RUN mkdir /service
 # COPY go.* /service/
 # WORKDIR /service
 # RUN go mod download
 
-WORKDIR /service/app/services/courses-api
+WORKDIR /courses-service/app/services/courses-api
 RUN go build -ldflags "-X main.build=${BUILD_REF}"
 
 FROM alpine:3.21
