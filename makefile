@@ -57,6 +57,24 @@ dev-down:
 
 #----------------------
 
+dev-load:
+	kind load docker-image $(SERVICE_IMAGE) --name $(KIND_CLUSTER)
+
+dev-apply:
+	kustomize build config/k8s/dev/courses | kubectl apply -f -
+	kubectl wait pods --namespace=$(NAMESPACE) --selector app=$(APP) --timeout=120s --for=condition=Ready
+#----------------------
+
+dev-logs:
+	kubectl logs --namespace=$(NAMESPACE) -l app=$(APP) --all-containers=true -f --tail=100 --max-log-requests=6 | go run app/tooling/logfmt/main.go -service=$(SERVICE_NAME)
+
+dev-describe-deployment:
+	kubectl describe deployment --namespace=$(NAMESPACE) $(APP)
+
+dev-describe-courses:
+	kubectl describe pod --namespace=$(NAMESPACE) -l app=$(APP)
+#----------------------
+
 dev-status:
 	kubectl get nodes -o wide
 	kubectl get svc -o wide

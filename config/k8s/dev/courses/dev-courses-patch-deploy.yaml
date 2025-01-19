@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: courses
+  namespace: courses-system
+
+spec:
+  selector:
+    matchLabels:
+      app: courses
+
+  replicas: 1
+
+  strategy:
+    type: Recreate
+
+  template:
+    metadata:
+      labels:
+        app: courses
+
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
