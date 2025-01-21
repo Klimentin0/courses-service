@@ -27,3 +27,9 @@ spec:
       containers:
       - name: courses-api
         image: courses-service-image
+
+        env:
+        - name: GOMAXPROCS
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.cpu
