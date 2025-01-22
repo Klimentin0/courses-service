@@ -14,6 +14,6 @@ spec:
   - name: courses-api
     port: 3000
     targetPort: courses-api
-  - name: courses-api-debug
+  - name: coursesapidebug
     port: 4000
-    targetPort: courses-api-debug
+    targetPort: coursesapidebug
