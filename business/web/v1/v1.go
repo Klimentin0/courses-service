@@ -1,12 +1,10 @@
 package v1
 
 import (
-	"encoding/json"
-	"net/http"
 	"os"
 
 	"github.com/Klimentin0/courses-service/foundation/logger"
-	"github.com/dimfeld/httptreemux/v5"
+	"github.com/Klimentin0/courses-service/foundation/web"
 )
 
 // APIMuxConfig contains all the mandatory systems required by handlers.
@@ -16,21 +14,16 @@ type APIMuxConfig struct {
 	Log      *logger.Logger
 }
 
+// RouteAdder defines behavoir that sets the routes to bind for an instance of the service
+type RouteAdder interface {
+	Add(app *web.App, cfg APIMuxConfig)
+}
+
 // APIMux constructs an http.Handler with all application routes defined.
-func APIMux(cfg APIMuxConfig) *httptreemux.ContextMux {
-	mux := httptreemux.NewContextMux()
+func APIMux(cfg APIMuxConfig, routeAdder RouteAdder) *web.App {
+	app := web.NewApp(cfg.Shutdown)
 
-	h := func(w http.ResponseWriter, r *http.Request) {
-		status := struct {
-			Status string
-		}{
-			Status: "OK",
-		}
+	routeAdder.Add(app, cfg)
 
-		json.NewEncoder(w).Encode(status)
-	}
-
-	mux.Handle(http.MethodGet, "/hack", h)
-
-	return mux
+	return app
 }

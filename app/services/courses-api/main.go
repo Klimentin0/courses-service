@@ -12,6 +12,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/Klimentin0/courses-service/app/services/courses-api/v1/handlers"
 	v1 "github.com/Klimentin0/courses-service/business/web/v1"
 	"github.com/Klimentin0/courses-service/business/web/v1/debug"
 	"github.com/Klimentin0/courses-service/foundation/logger"
@@ -116,7 +117,7 @@ func run(ctx context.Context, log *logger.Logger) error {
 		Log:      log,
 	}
 
-	apiMux := v1.APIMux(cfgMux)
+	apiMux := v1.APIMux(cfgMux, handlers.Routes{})
 
 	api := http.Server{
 		Addr:         cfg.Web.APIHost,
