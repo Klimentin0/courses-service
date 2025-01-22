@@ -4,6 +4,7 @@ resources:
 - ../../base/courses
 patches:
 - path: ./dev-courses-patch-deploy.yaml
+- path: ./dev-courses-patch-service.yaml
 images:
 - name: courses-service-image
   newName: Klimentin0/courses-service/courses-api
