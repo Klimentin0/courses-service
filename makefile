@@ -5,6 +5,9 @@ SHELL = $(if $(wildcard $(SHELL_PATH)),/bin/ash,/bin/bash)
 run:
 	go run app/services/courses-api/main.go | go run app/tooling/logfmt/main.go
 
+run-help:
+	go run app/services/courses-api/main.go --help | go run app/tooling/logfmt/main.go
+
 #======================
 # Define dependencies
 
@@ -86,3 +89,11 @@ dev-status:
 	kubectl get nodes -o wide
 	kubectl get svc -o wide
 	kubectl get pods -o wide --watch --all-namespaces
+
+#----------------------
+
+#Modules support
+
+tidy:
+	go mod tidy
+	go mod vendor
