@@ -16,6 +16,7 @@ import (
 	v1 "github.com/Klimentin0/courses-service/business/web/v1"
 	"github.com/Klimentin0/courses-service/business/web/v1/debug"
 	"github.com/Klimentin0/courses-service/foundation/logger"
+	"github.com/Klimentin0/courses-service/foundation/web"
 	"github.com/ardanlabs/conf/v3"
 )
 
@@ -31,7 +32,7 @@ func main() {
 	}
 
 	traceIDFunc := func(ctx context.Context) string {
-		return ""
+		return web.GetTraceID(ctx)
 	}
 
 	log = logger.NewWithEvents(os.Stdout, logger.LevelInfo, "COURSES-API", traceIDFunc, events)
