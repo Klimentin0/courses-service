@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/Klimentin0/courses-service/business/web/v1/auth"
 	"github.com/Klimentin0/courses-service/business/web/v1/response"
 	"github.com/Klimentin0/courses-service/foundation/logger"
 	"github.com/Klimentin0/courses-service/foundation/web"
@@ -29,6 +30,12 @@ func Errors(log *logger.Logger) web.Middleware {
 						Error: reqErr.Error(),
 					}
 					status = reqErr.Status
+
+				case auth.IsAuthError(err):
+					er = response.ErrorDocument{
+						Error: http.StatusText(http.StatusUnauthorized),
+					}
+					status = http.StatusUnauthorized
 				//NON-Trusted error
 				default:
 					er = response.ErrorDocument{

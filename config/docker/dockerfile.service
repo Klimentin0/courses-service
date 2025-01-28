@@ -22,6 +22,7 @@ ARG BUILD_DATE
 ARG BUILD_REF
 RUN addgroup -g 1000 -S courses && \
     adduser -u 1000 -h /service -G courses -S courses
+COPY --from=build_courses-api --chown=courses:courses /courses-service/config/keys/. /service/config/keys/.
 COPY --from=build_courses-api --chown=courses:courses /courses-service/app/services/courses-api/courses-api /service/courses-api
 WORKDIR /service
 USER courses

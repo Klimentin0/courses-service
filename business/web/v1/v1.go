@@ -3,6 +3,7 @@ package v1
 import (
 	"os"
 
+	"github.com/Klimentin0/courses-service/business/web/v1/auth"
 	"github.com/Klimentin0/courses-service/business/web/v1/mid"
 	"github.com/Klimentin0/courses-service/foundation/logger"
 	"github.com/Klimentin0/courses-service/foundation/web"
@@ -13,6 +14,7 @@ type APIMuxConfig struct {
 	Build    string
 	Shutdown chan os.Signal
 	Log      *logger.Logger
+	Auth     *auth.Auth
 }
 
 // RouteAdder defines behavoir that sets the routes to bind for an instance of the service
