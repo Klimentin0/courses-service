@@ -7,6 +7,7 @@ import (
 	"github.com/Klimentin0/courses-service/business/web/v1/auth"
 	"github.com/Klimentin0/courses-service/business/web/v1/response"
 	"github.com/Klimentin0/courses-service/foundation/logger"
+	"github.com/Klimentin0/courses-service/foundation/validate"
 	"github.com/Klimentin0/courses-service/foundation/web"
 )
 
@@ -26,6 +27,16 @@ func Errors(log *logger.Logger) web.Middleware {
 				//Trused error
 				case response.IsError(err):
 					reqErr := response.GetError(err)
+
+					if validate.IsFieldErrors(reqErr.Err) {
+						fieldErrors := validate.GetFieldErrors(reqErr.Err)
+						er = response.ErrorDocument{
+							Error:  "data validation error",
+							Fields: fieldErrors.Fields(),
+						}
+						status = reqErr.Status
+						break
+					}
 					er = response.ErrorDocument{
 						Error: reqErr.Error(),
 					}
