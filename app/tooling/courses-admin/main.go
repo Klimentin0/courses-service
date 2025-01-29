@@ -30,7 +30,7 @@ var (
 
 // vid3.1
 func main() {
-	err := gentoken()
+	err := migrateSeed()
 
 	if err != nil {
 		log.Fatalln(err)
@@ -57,12 +57,6 @@ func migrateSeed() error {
 			fmt.Println(help)
 			return nil
 		}
-
-		// out, err := conf.String(&cfg)
-		// if err != nil {
-		// 	return fmt.Errorf("generating config for output: %w", err)
-		// }
-		// log.Info(context.Background(), "startup", "config", out)
 
 		return fmt.Errorf("parsing config: %w", err)
 	}
@@ -91,13 +85,14 @@ func migrateSeed() error {
 	}
 
 	fmt.Println("migrations complete")
-	// - - - - -
+
+	// -------------------------------------------------------------------------
 
 	if err := dbmigrate.Seed(ctx, db); err != nil {
 		return fmt.Errorf("seed database: %w", err)
 	}
 
-	fmt.Println("seed daata complete")
+	fmt.Println("seed data complete")
 	return nil
 }
 

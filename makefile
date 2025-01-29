@@ -120,6 +120,7 @@ dev-logs-db:
 
 dev-logs-init:
 	kubectl logs --namespace=$(NAMESPACE) -l app=$(APP) -f --tail=100 -c init-migrate
+
 pgcli:
 	pgcli postgresql://postgres:postgres@localhost
 #----------------------
