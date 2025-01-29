@@ -16,7 +16,7 @@ type User struct {
 	PasswordHash []byte
 	Department   string
 	Enabled      bool
-	DateCreate   time.Time
+	DateCreated  time.Time
 	DateUpdated  time.Time
 }
 
