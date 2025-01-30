@@ -7,6 +7,7 @@ import (
 	"github.com/Klimentin0/courses-service/business/web/v1/mid"
 	"github.com/Klimentin0/courses-service/foundation/logger"
 	"github.com/Klimentin0/courses-service/foundation/web"
+	"github.com/jmoiron/sqlx"
 )
 
 // APIMuxConfig contains all the mandatory systems required by handlers.
@@ -15,6 +16,7 @@ type APIMuxConfig struct {
 	Shutdown chan os.Signal
 	Log      *logger.Logger
 	Auth     *auth.Auth
+	DB       *sqlx.DB
 }
 
 // RouteAdder defines behavoir that sets the routes to bind for an instance of the service
