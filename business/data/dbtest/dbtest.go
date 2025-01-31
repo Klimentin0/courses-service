@@ -11,6 +11,7 @@ import (
 	"github.com/Klimentin0/courses-service/business/core/user"
 	"github.com/Klimentin0/courses-service/business/core/user/stores/userdb"
 	"github.com/Klimentin0/courses-service/business/data/dbmigrate"
+	db "github.com/Klimentin0/courses-service/business/data/dbsql/pgx"
 	"github.com/Klimentin0/courses-service/business/web/v1/auth"
 	"github.com/Klimentin0/courses-service/foundation/docker"
 	"github.com/Klimentin0/courses-service/foundation/logger"
